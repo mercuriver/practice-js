@@ -154,30 +154,63 @@
       //     )
       //   );
 
-      const openPage2 = async (title, dataFn, tmplFn) => {
+      // const openPage2 = async (title, dataFn, tmplFn) => {
+      //   const dataP = dataFn();
+      //   const page = await show(
+      //     append(
+      //       $('body'),
+      //       el(`
+      //       <div class="page hide">
+      //         <h2 class="title">${title}</h2>
+      //         <div class="content"></div>
+      //       </div>
+      //     `)
+      //     )
+      //   );
+
+      //   show(
+      //     tap(append)(
+      //       addClass('hide', $('.content', page)),
+      //       el(tmplFn(await dataP))
+      //     )
+      //   );
+      // };
+
+      const isPromise = (a) => a instanceof Promise;
+
+      const openPage3 = async (title, dataFn, tmplFn) => {
         const dataP = dataFn();
+
         const page = await show(
           append(
             $('body'),
             el(`
             <div class="page hide">
               <h2 class="title">${title}</h2>
-              <div class="content"></div>
+              <div class="content">${
+                isPromise(dataP) ? '' : tmplFn(dataP)
+              }</div>
             </div>
           `)
           )
         );
 
-        show(
-          tap(append)(
-            addClass('hide', $('.content', page)),
-            el(tmplFn(await dataP))
-          )
-        );
+        isPromise(dataP) &&
+          show(
+            tap(append)(
+              addClass('hide', $('.content', page)),
+              el(tmplFn(await dataP))
+            )
+          );
       };
 
+      let i = 0;
       document.addEventListener('click', () =>
-        openPage2('상품 목록', Product.list250, Product.list.tmpl)
+        openPage3(
+          '상품 목록',
+          i++ % 2 ? Product.list : Product.list700,
+          Product.list.tmpl
+        )
       );
     </script>
   </body>
