@@ -61,9 +61,13 @@
         { name: '바지', price: 25000, quantity: 5, selected: false },
       ];
 
-      const Product = {};
+      const deley = (time, a) =>
+        new Promise((resolve) => setTimeout(() => resolve(a), time));
 
+      const Product = {};
       Product.list = () => products; // DB 값을 조회하는 함수로 가정
+      Product.list700 = () => deley(700, products);
+
       Product.list.tmpl = (products) => `
         <table>
           <tr>
@@ -101,21 +105,21 @@
 
       const show = (el) => setTimeout(() => removeClass('hide', el), 1);
 
-      const openPage = (title, dataFn, tmplFn) =>
+      const openPage = async (title, dataFn, tmplFn) =>
         show(
           append(
             $('body'),
             el(`
             <div class="page hide">
               <h2 class="title">${title}</h2>
-              <div class="content">${tmplFn(dataFn())}</div>
+              <div class="content">${tmplFn(await dataFn())}</div>
             </div>
           `)
           )
         );
 
       document.addEventListener('click', () =>
-        openPage('상품 목록', Product.list, Product.list.tmpl)
+        openPage('상품 목록', Product.list700, Product.list.tmpl)
       );
     </script>
   </body>
