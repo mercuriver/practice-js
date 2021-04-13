@@ -131,16 +131,18 @@
       // 함수의 반환값을 변경하는 함수
       // 본 코드에서는 append에 적용하여 child 대신 parent가 반환되도록 유도함
 
-      const show = (el) =>
+      const transitionend = (f) => (el) =>
         new Promise((resolve) =>
           setTimeout(() => {
-            removeClass('hide', el).addEventListener(
-              'transitionend',
-              () => resolve(el),
-              { once: true }
-            );
+            f(el);
+            el.addEventListener('transitionend', () => resolve(el), {
+              once: true,
+            });
           }, 1)
         );
+      // transitionend보다는 reqest animation frame이나 animeJS 같은 라이브러리로 animation을 제어하는 것이 일반적
+
+      const show = transitionend((el) => removeClass('hide', el));
 
       // const openPage = async (title, dataFn, tmplFn) =>
       //   show(
@@ -207,7 +209,7 @@
 
       const nop = Symbol('nop');
 
-      const isNop = (a) => a === nop;
+      const isNop = (a) => a == nop;
 
       const openPage4 = async (title, dataFn, tmplFn) => {
         const dataP = dataFn();
@@ -242,6 +244,15 @@
           Product.list.tmpl
         )
       );
+
+      // 응용 코드
+      // document.addEventListener('click', () =>
+      //   openPage4(
+      //     '다른 뷰',
+      //     () => delay(40, 'Another view'),
+      //     (str) => `<i>${str}</i>`
+      //   )
+      // );
     </script>
   </body>
 </html>
