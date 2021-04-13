@@ -16,9 +16,9 @@
       td {
         padding: 5px;
       }
-      tr:active {
+      /* tr:active {
         background: #ccc;
-      }
+      } */
       .page {
         position: fixed;
         top: 0;
@@ -72,13 +72,14 @@
         { name: '바지', price: 25000, quantity: 5, selected: false },
       ];
 
-      const deley = (time, a) =>
+      const delay = (time, a) =>
         new Promise((resolve) => setTimeout(() => resolve(a), time));
 
       const Product = {};
       Product.list = () => products; // DB 값을 조회하는 함수로 가정
-      Product.list700 = () => deley(700, products);
-      Product.list250 = () => deley(250, products);
+      Product.list700 = () => delay(700, products);
+      Product.list250 = () => delay(250, products);
+      Product.list30 = () => delay(30, products);
 
       Product.list.tmpl = (products) => `
         <table>
@@ -178,8 +179,39 @@
 
       const isPromise = (a) => a instanceof Promise;
 
-      const openPage3 = async (title, dataFn, tmplFn) => {
+      // const openPage3 = async (title, dataFn, tmplFn) => {
+      //   const dataP = dataFn();
+
+      //   const page = await show(
+      //     append(
+      //       $('body'),
+      //       el(`
+      //       <div class="page hide">
+      //         <h2 class="title">${title}</h2>
+      //         <div class="content">${
+      //           isPromise(dataP) ? '' : tmplFn(dataP)
+      //         }</div>
+      //       </div>
+      //     `)
+      //     )
+      //   );
+
+      //   isPromise(dataP) &&
+      //     show(
+      //       tap(append)(
+      //         addClass('hide', $('.content', page)),
+      //         el(tmplFn(await dataP))
+      //       )
+      //     );
+      // };
+
+      const nop = Symbol('nop');
+
+      const isNop = (a) => a === nop;
+
+      const openPage4 = async (title, dataFn, tmplFn) => {
         const dataP = dataFn();
+        const data = await Promise.race([dataP, delay(50, nop)]);
 
         const page = await show(
           append(
@@ -187,15 +219,13 @@
             el(`
             <div class="page hide">
               <h2 class="title">${title}</h2>
-              <div class="content">${
-                isPromise(dataP) ? '' : tmplFn(dataP)
-              }</div>
+              <div class="content">${isNop(data) ? '' : tmplFn(data)}</div>
             </div>
           `)
           )
         );
 
-        isPromise(dataP) &&
+        isNop(data) &&
           show(
             tap(append)(
               addClass('hide', $('.content', page)),
@@ -206,9 +236,9 @@
 
       let i = 0;
       document.addEventListener('click', () =>
-        openPage3(
+        openPage4(
           '상품 목록',
-          i++ % 2 ? Product.list : Product.list700,
+          i++ % 2 ? Product.list30 : Product.list700,
           Product.list.tmpl
         )
       );
