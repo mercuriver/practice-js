@@ -39,6 +39,14 @@
         text-align: center;
         border-bottom: 1px solid #ccc;
       }
+      .page > content {
+        opacity: 1;
+        transition: opacity 0.2s;
+      }
+      .page > content.hide {
+        opacity: 0;
+        transition: none;
+      }
     </style>
   </head>
   <body>
@@ -102,6 +110,8 @@
 
       const append = (parent, child) => parent.appendChild(child);
 
+      const addClass = (name, el) => (el.classList.add(name), el);
+
       const removeClass = (name, el) => (el.classList.remove(name), el);
 
       // const show = (el) => {
@@ -146,7 +156,7 @@
           `)
           )
         );
-        append(page, el(tmplFn(await dataP)));
+        append(addClass('hide', $('.content', page)), el(tmplFn(await dataP)));
       };
 
       document.addEventListener('click', () =>
