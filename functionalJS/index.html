@@ -51,6 +51,9 @@
   </head>
   <body>
     <script>
+      // 다음 라이브코딩 영상을 실습한 내용
+      // https://www.youtube.com/watch?v=Y8d5P9M51xs
+
       const products = [
         { name: '반팔티', price: 15000, quantity: 1, selected: true },
         { name: '긴팔티', price: 20000, quantity: 2, selected: false },
@@ -123,6 +126,10 @@
       //   return el;
       // };
 
+      const tap = (f) => (a, ...bs) => (f(a, ...bs), a);
+      // 함수의 반환값을 변경하는 함수
+      // 본 코드에서는 append에 적용하여 child 대신 parent가 반환되도록 유도함
+
       const show = (el) =>
         new Promise((resolve) =>
           setTimeout(() => {
@@ -160,7 +167,13 @@
           `)
           )
         );
-        append(addClass('hide', $('.content', page)), el(tmplFn(await dataP)));
+
+        show(
+          tap(append)(
+            addClass('hide', $('.content', page)),
+            el(tmplFn(await dataP))
+          )
+        );
       };
 
       document.addEventListener('click', () =>
