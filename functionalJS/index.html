@@ -54,6 +54,42 @@
         { name: '후드티', price: 30000, quantity: 4, selected: false },
         { name: '바지', price: 25000, quantity: 5, selected: false },
       ];
+
+      const Product = {};
+
+      Product.list = () => products; // DB 값을 조회하는 함수로 가정
+      Product.list.tmpl = (products) => `
+        <table>
+          <tr>
+            <td>이름</td>
+            <td>가격</td>
+            <td>수량</td>
+            <td>합계</td>
+          </tr>
+          ${products
+            .map(
+              (p) => `
+            <tr>
+              <td>${p.name}</td>
+              <td>${p.price}</td>
+              <td>${p.quantity}</td>
+              <td>${p.price * p.quantity}</td>
+            </tr>
+          `
+            )
+            .join('')}
+        </table>
+      `;
+
+      const el = (html) => {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = html;
+        return wrap.children[0];
+      };
+
+      document
+        .querySelector('body')
+        .appendChild(el(Product.list.tmpl(Product.list())));
     </script>
   </body>
 </html>
