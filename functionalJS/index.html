@@ -67,6 +67,7 @@
       const Product = {};
       Product.list = () => products; // DB 값을 조회하는 함수로 가정
       Product.list700 = () => deley(700, products);
+      Product.list250 = () => deley(250, products);
 
       Product.list.tmpl = (products) => `
         <table>
@@ -103,10 +104,21 @@
 
       const removeClass = (name, el) => (el.classList.remove(name), el);
 
-      const show = (el) => {
-        setTimeout(() => removeClass('hide', el), 1);
-        return el;
-      };
+      // const show = (el) => {
+      //   setTimeout(() => removeClass('hide', el), 1);
+      //   return el;
+      // };
+
+      const show = (el) =>
+        new Promise((resolve) =>
+          setTimeout(() => {
+            removeClass('hide', el).addEventListener(
+              'transitionend',
+              () => resolve(el),
+              { once: true }
+            );
+          }, 1)
+        );
 
       // const openPage = async (title, dataFn, tmplFn) =>
       //   show(
@@ -123,7 +135,7 @@
 
       const openPage2 = async (title, dataFn, tmplFn) => {
         const dataP = dataFn();
-        const page = show(
+        const page = await show(
           append(
             $('body'),
             el(`
@@ -138,7 +150,7 @@
       };
 
       document.addEventListener('click', () =>
-        openPage2('상품 목록', Product.list700, Product.list.tmpl)
+        openPage2('상품 목록', Product.list250, Product.list.tmpl)
       );
     </script>
   </body>
