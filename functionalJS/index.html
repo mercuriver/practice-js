@@ -26,6 +26,12 @@
         width: 100%;
         height: 100%;
         background: #fff;
+        transform: translateY(0);
+        transition: transform 0.6s;
+      }
+      .page.hide {
+        transform: translateY(100%);
+        transition: none;
       }
       .page > .title {
         margin: 0;
@@ -88,17 +94,24 @@
       };
 
       const $ = (sel, parent = document) => parent.querySelector(sel);
+
       const append = (parent, child) => parent.appendChild(child);
 
+      const removeClass = (name, el) => (el.classList.remove(name), el);
+
+      const show = (el) => setTimeout(() => removeClass('hide', el), 1);
+
       const openPage = (title, dataFn, tmplFn) =>
-        append(
-          $('body'),
-          el(`
-            <div class="page">
+        show(
+          append(
+            $('body'),
+            el(`
+            <div class="page hide">
               <h2 class="title">${title}</h2>
               <div class="content">${tmplFn(dataFn())}</div>
             </div>
           `)
+          )
         );
 
       document.addEventListener('click', () =>
