@@ -39,11 +39,11 @@
         text-align: center;
         border-bottom: 1px solid #ccc;
       }
-      .page > content {
+      .page > .content {
         opacity: 1;
         transition: opacity 0.2s;
       }
-      .page > content.hide {
+      .page > .content.hide {
         opacity: 0;
         transition: none;
       }
@@ -110,9 +110,13 @@
 
       const append = (parent, child) => parent.appendChild(child);
 
-      const addClass = (name, el) => (el.classList.add(name), el);
+      const editClass = (method) => (name, el) => (
+        el.classList[method](name), el
+      );
 
-      const removeClass = (name, el) => (el.classList.remove(name), el);
+      const addClass = editClass('add');
+
+      const removeClass = editClass('remove');
 
       // const show = (el) => {
       //   setTimeout(() => removeClass('hide', el), 1);
