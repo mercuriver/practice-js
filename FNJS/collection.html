@@ -30,11 +30,27 @@
       // 1.2. values
       // > 배열에서 사용될 경우 map과 동일하게 동작하지만 object일 경우에 차이가 발생
 
-      function _values(data) {
-        return _map(data, function (val) {
-          return val;
-        });
+      // function _values(data) {
+      //   return _map(data, function (val) {
+      //     return val;
+      //   });
+      // }
+
+      /*
+        > underscore에 구현되어있는 _identity 함수,
+        쓸모없어 보일지라도 위에서 구현한 _values에서 _map호출시 사용하는 mapper와 동일하다 
+      */
+      function _identity(val) {
+        return val;
       }
+
+      // function _values(data) {
+      //   return _map(data, _identity);
+      // }
+
+      // >> _curryr와 접목된 _map을 응용하여 다음과 같이 보다 간소화된 코드로 구현 가능
+      var _values = _map(_identity);
+
       console.log(_values(users));
       console.log(users[0]);
       console.log(_keys(users[0]));
