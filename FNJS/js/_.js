@@ -99,3 +99,19 @@ function _identity(val) {
 }
 
 var _values = _map(_identity);
+
+function _pluck(data, key) {
+  return _map(data, _get(key));
+}
+
+function _negate(func) {
+  return function (val) {
+    return !func(val);
+  };
+}
+
+function _reject(data, predi) {
+  return _filter(data, _negate(predi));
+}
+
+var _compact = _filter(_identity);

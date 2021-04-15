@@ -53,9 +53,10 @@
       console.log(_values(users[0]));
 
       // 1.2. pluck
-      function _pluck(data, key) {
-        return _map(data, _get(key));
-      }
+      // _.js로 이동
+      // function _pluck(data, key) {
+      //   return _map(data, _get(key));
+      // }
 
       console.log(_pluck(users, 'age'));
       console.log(_pluck(users, 'name'));
@@ -68,15 +69,17 @@
         })
       );
       // 2.1. reject
-      function _negate(func) {
-        return function (val) {
-          return !func(val);
-        };
-      }
+      // _.js로 이동
+      // function _negate(func) {
+      //   return function (val) {
+      //     return !func(val);
+      //   };
+      // }
 
-      function _reject(data, predi) {
-        return _filter(data, _negate(predi));
-      }
+      // _.js로 이동
+      // function _reject(data, predi) {
+      //   return _filter(data, _negate(predi));
+      // }
 
       console.log(
         _reject(users, function (user) {
@@ -86,10 +89,31 @@
 
       // 2.1. compact
       // > 참으로 판별되는 값만 반환하는 함수
-      var _compact = _filter(_identity);
+      // _.js로 이동
+      // var _compact = _filter(_identity);
       console.log(_compact([1, 2, 0, false, null, {}]));
 
       // 3. 찾아내기 - find, some, every 등
+      // 3.1. find 만들기
+
+      function _find(list, predi) {
+        var keys = _keys(list);
+        for (var i = 0, len = keys.length; i < len; i++) {
+          var val = list[keys[i]];
+          if (predi(val)) return val;
+        }
+        return list;
+      }
+
+      console.log(
+        _find(users, function (user) {
+          return user.age < 30;
+        })
+      );
+
+      // 3.2. find_index
+      // 3.3. some
+      // 3.4. every
 
       // 4. 접기(축약) - reduce, min, max, group_by, count_by
     </script>
