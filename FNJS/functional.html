@@ -136,7 +136,7 @@
       */
 
       // 3. 커링
-      /* 
+      /*
         > 함수와 인자를 다루는 기법으로, 인자가 모두 충족되었을 때 평가를 진행한다.
         자바스크립트는 커리를 지원하지 않지만 평가 시점을 제어할 수 있기 때문에 커리를 구현 할 수 있다.
       */
@@ -233,7 +233,55 @@
 
       // 5. 파이프라인 만들기
       // 5.1. _pipe
+      function _pipe() {
+        var fns = arguments;
+        return function (arg) {
+          return _reduce(
+            fns,
+            function (arg, fn) {
+              return fn(arg);
+            },
+            arg
+          );
+        };
+      }
+
+      var f1 = _pipe(
+        function (a) {
+          return a + 1;
+        },
+        function (a) {
+          return a * 2;
+        },
+        function (a) {
+          return a * a;
+        }
+      );
+
+      console.clear();
+      console.log(f1(1), f1(3));
+
       // 5.2. _go
+      function _go(arg) {
+        var fns = _rest(arguments);
+        return _pipe.apply(null, fns)(arg);
+      }
+
+      // _pipe의 즉시 실행 함수 버전
+      _go(
+        2,
+        function (a) {
+          return a + 1;
+        },
+        function (a) {
+          return a * 2;
+        },
+        function (a) {
+          return a * a;
+        },
+        console.log
+      );
+
       // 5.3. users에 _go 적용
       // 5.4. 화살표 함수 간단히
 
