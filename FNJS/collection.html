@@ -85,6 +85,9 @@
       );
 
       // 2.1. compact
+      // > 참으로 판별되는 값만 반환하는 함수
+      var _compact = _filter(_identity);
+      console.log(_compact([1, 2, 0, false, null, {}]));
 
       // 3. 찾아내기 - find, some, every 등
 
