@@ -1,5 +1,11 @@
+var _get = _curryr(function (obj, key) {
+  return obj == null ? undefined : obj[key];
+});
+
+var _length = _get('length');
+
 function _each(list, iter) {
-  for (var i = 0; i < list.length; i++) {
+  for (var i = 0, len = _length(list); i < len; i++) {
     iter(list[i]);
   }
   return list;
@@ -40,10 +46,6 @@ function _curryr(fn) {
         };
   };
 }
-
-var _get = _curryr(function (obj, key) {
-  return obj == null ? undefined : obj[key];
-});
 
 var _map = _curryr(_map),
   _filter = _curryr(_filter);

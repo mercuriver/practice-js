@@ -350,6 +350,24 @@
 
       // 6. _each의 외부 다형성 높이기
       // 6.1. _each에 null 넣어도 에러 안나게
+      /* 
+        > 런타임 에러가 나는 것을 처리하여 다형성을 강화한다.
+        _each에서 list의 length를 _get을 통하여 접근하여 undefined를 유도하여 에러대신 빈 값이 반환되도록 처리하고, 이를 통해 _each를 참조하는 _map, _filter 등 응용 함수의 안정성을 높힌다.
+        예외적인 데이터가 들어와도 에러를 내지 않고 흘러가도록 처리하는 것이 lodash나 underscore에서 사용하는 방식으로 유도하고 있다.
+        각종 데이터를 다루는 nodejs ORM 라이브러리들도 코어에 lodash나 underscore를 사용할 정도로 대중적으로 안정적이고 실용적이라고 인정받은 데이터 처리 방법
+      */
+
+      // _.js로 이동
+      // var _length = _get('length');
+
+      // _.js로 이동
+      // function _each(list, iter) {
+      //   for (var i = 0, len = _length(list); i < len; i++) {
+      //     iter(list[i]);
+      //   }
+      //   return list;
+      // }
+
       // 6.2. _keys 만들기
       // 6.3. _keys에서도 _is_object인지 검사하여 null 에러 안나게
       // 6.4. _each 외부 다형성 높이기
