@@ -309,6 +309,24 @@
         console.log
       );
 
+      // > 위 코드를 _curryr가 적용된 _map, _filter를 이용하여 표현력을 강화
+      _go(
+        users,
+        _filter(function (user) {
+          return user.age >= 30;
+        }),
+        _map(_get('name')),
+        console.log
+      );
+      _go(
+        users,
+        _filter(function (user) {
+          return user.age < 30;
+        }),
+        _map(_get('age')),
+        console.log
+      );
+
       // 5.4. 화살표 함수 간단히
 
       // 6. _each의 외부 다형성 높이기
