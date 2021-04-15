@@ -110,9 +110,9 @@ function _negate(func) {
   };
 }
 
-function _reject(data, predi) {
+var _reject = _curryr(function (data, predi) {
   return _filter(data, _negate(predi));
-}
+});
 
 var _compact = _filter(_identity);
 

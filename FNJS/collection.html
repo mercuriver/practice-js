@@ -197,19 +197,39 @@
       console.log(_min([1, 2, 4, 10, 5, -4]));
       console.log(_max([1, 2, 4, 10, 5, -4]));
 
-      function _min_by(data, iter) {
+      var _min_by = _curryr(function (data, iter) {
         return _reduce(data, function (a, b) {
           return iter(a) < iter(b) ? a : b;
         });
-      }
-      function _max_by(data, iter) {
+      });
+      var _max_by = _curryr(function (data, iter) {
         return _reduce(data, function (a, b) {
           return iter(a) > iter(b) ? a : b;
         });
-      }
+      });
 
       console.log(_min_by([1, 2, 4, 10, 5, -4], Math.abs));
       console.log(_max_by([1, 2, 4, 10, 5, -4, -11], Math.abs));
+
+      console.log(
+        _max_by(users, function (user) {
+          return user.age;
+        })
+      );
+
+      _go(
+        users,
+        _filter((user) => user.age >= 30),
+        _min_by(_get('age')),
+        console.log
+      );
+
+      _go(
+        users,
+        _reject((user) => user.age >= 30),
+        _max_by(_get('age')),
+        console.log
+      );
 
       // 4.2. group_by, push
       // 4.3. count_by, inc
