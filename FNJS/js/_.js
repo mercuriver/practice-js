@@ -93,3 +93,9 @@ function _go(arg) {
   var fns = _rest(arguments);
   return _pipe.apply(null, fns)(arg);
 }
+
+function _identity(val) {
+  return val;
+}
+
+var _values = _map(_identity);

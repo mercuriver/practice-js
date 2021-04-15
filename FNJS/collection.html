@@ -40,23 +40,28 @@
         > underscore에 구현되어있는 _identity 함수,
         쓸모없어 보일지라도 위에서 구현한 _values에서 _map호출시 사용하는 mapper와 동일하다 
       */
-      function _identity(val) {
-        return val;
-      }
+      // _.js로 이동
+      // function _identity(val) {
+      //   return val;
+      // }
 
       // function _values(data) {
       //   return _map(data, _identity);
       // }
 
       // >> _curryr와 접목된 _map을 응용하여 다음과 같이 보다 간소화된 코드로 구현 가능
-      var _values = _map(_identity);
-
-      console.log(_values(users));
-      console.log(users[0]);
-      console.log(_keys(users[0]));
+      // _.js로 이동
+      // var _values = _map(_identity);
       console.log(_values(users[0]));
 
-      // 1.2. pluck
+      // 1.3. pluck
+      function _pluck(data, key) {
+        return _map(data, function (obj) {
+          return obj[key];
+        });
+      }
+
+      console.log(_pluck(users, 'age'));
 
       // 2. 거르기 - filter, reject, compact, without 등
 
