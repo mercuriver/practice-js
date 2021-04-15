@@ -142,10 +142,12 @@
       */
       // 3.1. _curry, _curryr
       function _curry(fn) {
-        return function (a) {
-          return function (b) {
-            return fn(a, b);
-          };
+        return function (a, b) {
+          return arguments.length == 2
+            ? fn(a, b)
+            : function (b) {
+                return fn(a, b);
+              };
         };
       }
 
@@ -163,7 +165,7 @@
 
       var add10 = add(10);
       var add5 = add(5);
-      console.log(add10(5), add(3)(5), add5(3));
+      console.log(add10(5), add(3)(5), add5(7), add(1, 2));
 
       // 3.2. _get 만들어 좀 더 간단하게 하기
 
