@@ -328,6 +328,20 @@
       );
 
       // 5.4. 화살표 함수 간단히
+      _go(
+        users,
+        _filter((user) => user.age >= 30),
+        // _map((user) => user.name), // 화살표 표현식
+        _map(_get('name')), // 이 표현이 더 간결
+        console.log
+      );
+      _go(
+        users,
+        _filter((user) => user.age < 30),
+        // _map((user) => user.age),
+        _map(_get('age')),
+        console.log
+      );
 
       // 6. _each의 외부 다형성 높이기
       // 6.1. _each에 null 넣어도 에러 안나게
