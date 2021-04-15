@@ -211,6 +211,14 @@
       );
 
       // 4. _reduce 만들기
+      function _reduce(list, iter, memo) {
+        _each(list, function (val) {
+          memo = iter(memo, val);
+        });
+        return memo;
+      }
+
+      console.log(_reduce([1, 2, 3], add, 0));
 
       // 5. 파이프라인 만들기
       // 5.1. _pipe
