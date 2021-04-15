@@ -136,7 +136,35 @@
       */
 
       // 3. 커링
+      /* 
+        > 함수와 인자를 다루는 기법으로, 인자가 모두 충족되었을 때 평가를 진행한다.
+        자바스크립트는 커리를 지원하지 않지만 평가 시점을 제어할 수 있기 때문에 커리를 구현 할 수 있다.
+      */
       // 3.1. _curry, _curryr
+      function _curry(fn) {
+        return function (a) {
+          return function (b) {
+            return fn(a, b);
+          };
+        };
+      }
+
+      function _curryr(fn) {
+        return function (a) {
+          return function (b) {
+            return fn(b, a);
+          };
+        };
+      }
+
+      var add = _curry(function (a, b) {
+        return a + b;
+      });
+
+      var add10 = add(10);
+      var add5 = add(5);
+      console.log(add10(5), add(3)(5), add5(3));
+
       // 3.2. _get 만들어 좀 더 간단하게 하기
 
       // 4. _reduce 만들기
