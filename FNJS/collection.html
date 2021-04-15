@@ -36,7 +36,7 @@
 
       /*
         > underscore에 구현되어있는 _identity 함수,
-        쓸모없어 보일지라도 위에서 구현한 _values에서 _map호출시 사용하는 mapper와 동일하다 
+        쓸모없어 보일지라도 위에서 구현한 _values에서 _map호출시 사용하는 mapper와 동일하다
       */
       // _.js로 이동
       // function _identity(val) {
@@ -68,10 +68,14 @@
         })
       );
       // 2.1. reject
+      function _negate(func) {
+        return function (val) {
+          return !func(val);
+        };
+      }
+
       function _reject(data, predi) {
-        return _filter(data, function (val) {
-          return !predi(val);
-        });
+        return _filter(data, _negate(predi));
       }
 
       console.log(
