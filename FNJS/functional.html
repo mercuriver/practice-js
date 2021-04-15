@@ -372,22 +372,43 @@
       // > Object.keys()는 null이 들어갈 경우 에러가 발생함
       // 6.3. _keys에서도 _is_object인지 검사하여 null 에러 안나게
 
-      function _is_object(obj) {
-        return typeof obj == 'object' && !!obj;
-      }
+      // _.js로 이동
+      // function _is_object(obj) {
+      //   return typeof obj == 'object' && !!obj;
+      // }
 
-      function _keys(obj) {
-        return _is_object(obj) ? Object.keys(obj) : [];
-      }
+      // _.js로 이동
+      // function _keys(obj) {
+      //   return _is_object(obj) ? Object.keys(obj) : [];
+      // }
 
       console.log(
-        _keys({ name: 'id', age: 33 }),
+        _keys({ name: 'ID', age: 33 }),
         _keys([1, 2, 3, 4]),
         _keys(10),
         _keys(null)
       );
 
       // 6.4. _each 외부 다형성 높이기
+      // _.js로 이동
+      // function _each(list, iter) {
+      //   var keys = _keys(list);
+      //   for (var i = 0, len = keys.length; i < len; i++) {
+      //     iter(list[keys[i]]);
+      //   }
+      //   return list;
+      // }
+
+      _each(
+        {
+          13: 'ID',
+          18: 'HD',
+          29: 'YD',
+        },
+        function (name) {
+          console.log(name);
+        }
+      );
     </script>
   </body>
 </html>
