@@ -178,6 +178,11 @@
       console.log(sub10(5), sub(3)(5), sub(1, 2));
 
       // 3.2. _get 만들어 좀 더 간단하게 하기
+      function _get(obj, key) {
+        return obj == null ? undefined : obj[key];
+      }
+
+      console.log(_get(users[0], 'name'), _get(users[10], 'name'));
 
       // 4. _reduce 만들기
 
