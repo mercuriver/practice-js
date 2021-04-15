@@ -125,6 +125,18 @@
         })
       );
 
+      var _find = _curryr(_find),
+        _find_index = _curryr(_find_index);
+
+      _go(
+        users,
+        _find(function (user) {
+          return user.age < 30;
+        }),
+        _get('name'),
+        console.log
+      );
+
       // 3.3. some
       // 3.4. every
 
