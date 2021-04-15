@@ -151,14 +151,6 @@
         };
       }
 
-      function _curryr(fn) {
-        return function (a) {
-          return function (b) {
-            return fn(b, a);
-          };
-        };
-      }
-
       var add = _curry(function (a, b) {
         return a + b;
       });
@@ -166,6 +158,24 @@
       var add10 = add(10);
       var add5 = add(5);
       console.log(add10(5), add(3)(5), add5(7), add(1, 2));
+
+      // 문맥적 표현력을 위해 인자의 적용 순서가 반대여야 하는 경우가 발생 함
+      function _curryr(fn) {
+        return function (a, b) {
+          return arguments.length == 2
+            ? fn(a, b)
+            : function (b) {
+                return fn(b, a);
+              };
+        };
+      }
+
+      var sub = _curryr(function (a, b) {
+        return a - b;
+      });
+      var sub10 = sub(10);
+
+      console.log(sub10(5), sub(3)(5), sub(1, 2));
 
       // 3.2. _get 만들어 좀 더 간단하게 하기
 
