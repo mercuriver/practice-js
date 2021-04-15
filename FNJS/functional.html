@@ -218,10 +218,10 @@
       }
 
       function _reduce(list, iter, memo) {
-        // if (arguments.length == 2) {
-        //   memo = list[0];
-        //   list = list.slice(1);
-        // }
+        if (arguments.length == 2) {
+          memo = list[0];
+          list = _rest(list);
+        }
 
         _each(list, function (val) {
           memo = iter(memo, val);
@@ -229,7 +229,7 @@
         return memo;
       }
 
-      console.log(_reduce([1, 2, 3], add, 0));
+      console.log(_reduce([1, 2, 3], add, 0), _reduce([1, 2, 3], add));
 
       // 5. 파이프라인 만들기
       // 5.1. _pipe
