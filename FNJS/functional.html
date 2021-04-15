@@ -283,6 +283,32 @@
       );
 
       // 5.3. users에 _go 적용
+      // > 문제 3.2.에서 보다 표현력을 높혔던 풀이 코드
+      _go(
+        users,
+        function (users) {
+          return _filter(users, function (user) {
+            return user.age >= 30;
+          });
+        },
+        function (users) {
+          return _map(users, _get('name'));
+        },
+        console.log
+      );
+      _go(
+        users,
+        function (users) {
+          return _filter(users, function (user) {
+            return user.age < 30;
+          });
+        },
+        function (users) {
+          return _map(users, _get('age'));
+        },
+        console.log
+      );
+
       // 5.4. 화살표 함수 간단히
 
       // 6. _each의 외부 다형성 높이기
