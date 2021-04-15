@@ -18,6 +18,59 @@
         { id: 8, name: 'MP', age: 23 },
       ];
 
+      /*
+      1. 명령형 코드
+        1. 30세 이상인 users를 거른다.
+        2. 30세 이상인 users의 names를 수집한다.
+        3. 30세 미만인 users를 거른다.
+        4. 30세 미만인 users의 ages를 수집한다.
+
+      2. 함수형 코드
+        1. _filter, _map으로 리팩토링
+        2. each 만들기
+          1. _each로 _map, _filter 중복 제거
+          2. 외부 다형성
+            1. array_like, arguments, document.querySelectorAll
+            
+            > map, filter같은 기능은 array method로 기본적으로 제공되는 기능이다. 함수가 아니라 메소드다
+
+            가령 다음과 같은 코드는 querySelectorAll() 반환값이 array_like 객체이므로 array method가 지원되지 않아 에러가 발생한다.
+
+            document.querySelectorAll('*').map(function (node) {
+              return node.nodeName;
+            })
+
+            함수형 프로그래밍은 객체가 아닌 함수를 중심으로 기술되기 때문에 객체에 의존적이지 않아 다형성을 구현하기 수월하다. 
+            
+            _map(document.querySelectorAll('*'), function (node) {
+              return node.nodeName;
+            });
+      
+            map은 array나 array_like 등 객체의 영향을 받지 않고 보다 실용적으로 실행 가능함
+            (이 경우 length 속성이 있는 객체에 한정하여 동작 가능함)
+
+          3. 내부 다형성
+            1. predi, iter, mapper
+
+      3. 커링
+        1. _curry, _curryr
+        2. _get 만들어 좀 더 간단하게 하기
+
+      4. _reduce 만들기
+
+      5. 파이프라인 만들기
+        1. _pipe
+        2. _go
+        3. users에 _go 적용
+        4. 화살표 함수 간단히
+
+      6. _each의 외부 다형성 높이기
+        1. _each에 null 넣어도 에러 안나게
+        2. _keys 만들기
+        3. _keys에서도 _is_object인지 검사하여 null 에러 안나게
+        4. _each 외부 다형성 높이기
+      */
+
       // var temp_users = [];
       // for (var i = 0; i < users.length; i++) {
       //   if (users[i].age >= 30) {
