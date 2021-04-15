@@ -95,15 +95,15 @@
 
       // 3. 찾아내기 - find, some, every 등
       // 3.1. find 만들기
-
-      var _find = _curryr(function (list, predi) {
-        var keys = _keys(list);
-        for (var i = 0, len = keys.length; i < len; i++) {
-          var val = list[keys[i]];
-          if (predi(val)) return val;
-        }
-        return list;
-      });
+      // _.js로 이동
+      // var _find = _curryr(function (list, predi) {
+      //   var keys = _keys(list);
+      //   for (var i = 0, len = keys.length; i < len; i++) {
+      //     var val = list[keys[i]];
+      //     if (predi(val)) return val;
+      //   }
+      //   return list;
+      // });
 
       console.log(
         _find(users, function (user) {
@@ -112,13 +112,14 @@
       );
 
       // 3.2. find_index
-      var _find_index = _curryr(function (list, predi) {
-        var keys = _keys(list);
-        for (var i = 0, len = keys.length; i < len; i++) {
-          if (predi(list[keys[i]])) return i;
-        }
-        return -1;
-      });
+      // _.js로 이동
+      // var _find_index = _curryr(function (list, predi) {
+      //   var keys = _keys(list);
+      //   for (var i = 0, len = keys.length; i < len; i++) {
+      //     if (predi(list[keys[i]])) return i;
+      //   }
+      //   return -1;
+      // });
       console.log(
         _find_index(users, function (user) {
           return user.age < 30;
@@ -136,9 +137,10 @@
 
       // 3.3. some
       // > 조건에 데이터가 하나라도 해당하는지 체크 (boolean)
-      function _some(data, predi) {
-        return _find_index(data, predi || _identity) != -1;
-      }
+      // _.js로 이동
+      // function _some(data, predi) {
+      //   return _find_index(data, predi || _identity) != -1;
+      // }
 
       console.log(
         _some([1, 2, 5, 10, 20], function (val) {
@@ -151,9 +153,10 @@
 
       // 3.4. every
       // > 조건에 모든 데이터가 해당하는지 체크 (boolean)
-      function _every(data, predi) {
-        return _find_index(data, _negate(predi || _identity)) == -1;
-      }
+      // _.js로 이동
+      // function _every(data, predi) {
+      //   return _find_index(data, _negate(predi || _identity)) == -1;
+      // }
 
       console.log(
         _every([1, 2, 5, 10, 20], function (val) {
@@ -169,6 +172,12 @@
       console.log(_every([1, 2, 0, 10]));
       console.log(_every([null, false, 0]));
       console.log(_every([1, 2, 10]));
+
+      console.log(
+        _some(users, function (user) {
+          return user.age < 20;
+        })
+      );
 
       // 4. 접기(축약) - reduce, min, max, group_by, count_by
     </script>
