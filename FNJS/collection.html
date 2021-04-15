@@ -180,6 +180,39 @@
       );
 
       // 4. 접기(축약) - reduce, min, max, group_by, count_by
+      // 4.1. min, max, min_by, max_by
+      function _min(data) {
+        return _reduce(data, function (a, b) {
+          return a < b ? a : b;
+        });
+      }
+
+      function _max(data) {
+        return _reduce(data, function (a, b) {
+          return a > b ? a : b;
+        });
+      }
+
+      console.clear();
+      console.log(_min([1, 2, 4, 10, 5, -4]));
+      console.log(_max([1, 2, 4, 10, 5, -4]));
+
+      function _min_by(data, iter) {
+        return _reduce(data, function (a, b) {
+          return iter(a) < iter(b) ? a : b;
+        });
+      }
+      function _max_by(data, iter) {
+        return _reduce(data, function (a, b) {
+          return iter(a) > iter(b) ? a : b;
+        });
+      }
+
+      console.log(_min_by([1, 2, 4, 10, 5, -4], Math.abs));
+      console.log(_max_by([1, 2, 4, 10, 5, -4, -11], Math.abs));
+
+      // 4.2. group_by, push
+      // 4.3. count_by, inc
     </script>
   </body>
 </html>
