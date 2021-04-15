@@ -135,7 +135,40 @@
       );
 
       // 3.3. some
+      // > 조건에 데이터가 하나라도 해당하는지 체크 (boolean)
+      function _some(data, predi) {
+        return _find_index(data, predi || _identity) != -1;
+      }
+
+      console.log(
+        _some([1, 2, 5, 10, 20], function (val) {
+          return val > 5;
+        })
+      ); // true
+
+      console.log(_some([1, 2, 0, 10]));
+      console.log(_some([null, false, 0]));
+
       // 3.4. every
+      // > 조건에 모든 데이터가 해당하는지 체크 (boolean)
+      function _every(data, predi) {
+        return _find_index(data, _negate(predi || _identity)) == -1;
+      }
+
+      console.log(
+        _every([1, 2, 5, 10, 20], function (val) {
+          return val > 5;
+        })
+      ); // false
+
+      console.log(
+        _every([1, 2, 5, 10, 20], function (val) {
+          return val > 0;
+        })
+      ); // true
+      console.log(_every([1, 2, 0, 10]));
+      console.log(_every([null, false, 0]));
+      console.log(_every([1, 2, 10]));
 
       // 4. 접기(축약) - reduce, min, max, group_by, count_by
     </script>
