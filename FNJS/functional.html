@@ -211,7 +211,18 @@
       );
 
       // 4. _reduce 만들기
+      var slice = Array.prototype.slice;
+
+      function _rest(list, num) {
+        return slice.call(list, num || 1);
+      }
+
       function _reduce(list, iter, memo) {
+        // if (arguments.length == 2) {
+        //   memo = list[0];
+        //   list = list.slice(1);
+        // }
+
         _each(list, function (val) {
           memo = iter(memo, val);
         });
