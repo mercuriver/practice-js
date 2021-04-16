@@ -240,14 +240,16 @@
       );
 
       // 4.2. group_by, push
+      function _push(obj, key, val) {
+        (obj[key] = obj[key] || []).push(val);
+        return obj;
+      }
 
       var _group_by = _curryr(function (data, iter) {
         return _reduce(
           data,
           function (grouped, val) {
-            var key = iter(val);
-            (grouped[key] = grouped[key] || []).push(val);
-            return grouped;
+            return _push(grouped, iter(val), val);
           },
           {}
         );
