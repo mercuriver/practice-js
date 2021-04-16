@@ -16,6 +16,7 @@
         { id: 6, name: 'JE', age: 26 },
         { id: 7, name: 'JI', age: 31 },
         { id: 8, name: 'MP', age: 23 },
+        { id: 9, name: 'FP', age: 13 },
       ];
 
       // 1. 수집하기 - map, values, pluck 등
@@ -256,13 +257,26 @@
       });
 
       console.clear();
+      _go(users, _group_by(_get('age')), console.log);
       _go(
         users,
         _group_by(function (user) {
-          return user.age;
+          return user.age - (user.age % 10);
         }),
         console.log
       );
+      _go(
+        users,
+        _group_by(function (user) {
+          return user.name[0];
+        }),
+        console.log
+      );
+
+      var _head = function (list) {
+        return list[0];
+      };
+      _go(users, _group_by(_pipe(_get('name'), _head)), console.log);
 
       // 4.3. count_by, inc
     </script>
