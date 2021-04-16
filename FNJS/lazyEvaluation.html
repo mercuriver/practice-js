@@ -14,6 +14,67 @@
       // 2. 끝을 내는 함수
       // 2.1. take
       // 2.2. some, every, find
+
+      var mi = 0,
+        fi = 0;
+
+      _.go(
+        _.range(100),
+        _.map(function (val) {
+          ++mi;
+          return val * val;
+        }),
+        _.filter(function (val) {
+          ++fi;
+          return val % 2;
+        }),
+        _.take(5),
+        console.log
+      ); // 지연 평가를 적용하기 전 코드, map, filter에서 각각 loop 100회씩 진행
+      // (엄격한 평가) 평가 순서: map * 100 => filter * 100 => take
+      console.log(mi, fi);
+
+      var lmi = 0,
+        lfi = 0;
+
+      _.go(
+        _.range(100),
+        L.map(function (val) {
+          ++lmi;
+          return val * val;
+        }),
+        L.filter(function (val) {
+          ++lfi;
+          return val % 2;
+        }),
+        L.take(5),
+        console.log
+      ); // 지연 평가를 적용 후, map, filter에서 각각 loop 10회씩 진행하여 최적화 됨
+      // (지연 평가) 평가 순서: ( map => filter => take ) * 5
+      console.log(lmi, lfi);
+      /* 
+        > 함수가 순수함수이기때문에 가능, mapper, predicate 등 평가 함수가 순수함수이기때문에 어느 시점에서 어떤 값을 평가하더라도 동일한 값을 반환하기 때문에 평가 순서를 조정을 통하여 최적화가 가능하다
+        최적화를 위한 판단 기준으로는 (2) 항목에서 언급한 끝을 내는 함수를 만날 경우 진행한다
+      */
+
+      var lmi2 = 0,
+        lfi2 = 0;
+      _.go(
+        _.range(100),
+        L.map(function (val) {
+          ++lmi2;
+          return val * val;
+        }),
+        L.filter(function (val) {
+          ++lfi2;
+          return val % 2;
+        }),
+        L.some(function (val) {
+          return val > 100;
+        }),
+        console.log
+      );
+      console.log(lmi2, lfi2);
     </script>
   </body>
 </html>
