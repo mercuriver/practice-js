@@ -142,7 +142,54 @@
         console.log
       );
 
+      console.clear();
+
       // 5. users + posts + comments (index_by와 group_by로 효율 높이기)
+      var users2 = _.index_by(users, 'id');
+
+      function find_user_by_id(user_id) {
+        return users2[user_id];
+      }
+
+      var comments2 = _.go(
+        comments,
+        _.map(function (comment) {
+          return _.extend(
+            {
+              user: find_user_by_id(comment.user_id),
+            },
+            comment
+          );
+        }),
+        _.group_by('post_id')
+      );
+      console.log(comments2);
+
+      var posts2 = _.go(
+        posts,
+        _.map(function (post) {
+          return _.extend(
+            {
+              comments: comments2[post.id],
+              user: find_user_by_id(post.user_id),
+            },
+            post
+          );
+        }),
+        _.group_by('user_id')
+      );
+      console.log(posts2);
+
+      var users3 = _.map(users2, function (user) {
+        return _.extend(
+          {
+            posts: posts2[user.id],
+          },
+          user
+        );
+      });
+      console.log(users3);
+
       // 5.1. 특정인의 posts의 모든 comments 거르기
       // 5.2. 특정인의 posts에 comments를 단 친구의 이름들 뽑기
       // 5.3. 특정인의 posts에 comments를 단 친구들 카운트 정보
