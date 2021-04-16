@@ -147,16 +147,12 @@
       // 5. users + posts + comments (index_by와 group_by로 효율 높이기)
       var users2 = _.index_by(users, 'id');
 
-      function find_user_by_id(user_id) {
-        return users2[user_id];
-      }
-
       var comments2 = _.go(
         comments,
         _.map(function (comment) {
           return _.extend(
             {
-              user: find_user_by_id(comment.user_id),
+              user: users2[comment.user_id],
             },
             comment
           );
@@ -170,20 +166,21 @@
         _.map(function (post) {
           return _.extend(
             {
-              comments: comments2[post.id],
-              user: find_user_by_id(post.user_id),
+              comments: comments2[post.id] || [],
+              user: users2[post.user_id],
             },
             post
           );
-        }),
-        _.group_by('user_id')
+        })
       );
-      console.log(posts2);
+
+      var posts3 = _.group_by(posts2, 'user_id');
+      console.log(posts3);
 
       var users3 = _.map(users2, function (user) {
         return _.extend(
           {
-            posts: posts2[user.id],
+            posts: posts3[user.id],
           },
           user
         );
@@ -191,9 +188,43 @@
       console.log(users3);
 
       // 5.1. 특정인의 posts의 모든 comments 거르기
+      console.clear();
+      var user = users3[0];
+      console.log(user);
+
+      _.go(user.posts, _.pluck('comments'), _.flatten, console.log);
+      console.log(_.deep_pluck(user, 'posts.comments')); // todo: _.flatten 이 적용 안됨, 확인 필요 - 20210417
+      console.log(_.deep_pluck(user, 'posts.comments.user'));
+
       // 5.2. 특정인의 posts에 comments를 단 친구의 이름들 뽑기
+      _.go(
+        user.posts,
+        _.pluck('comments'),
+        _.flatten,
+        _.pluck('user'),
+        _.pluck('name'),
+        _.uniq,
+        console.log
+      );
+      console.log(_.deep_pluck(user, 'posts.comments.user.name'));
+      _.go(user, _.deep_pluck('posts.comments.user.name'), _.uniq, console.log);
+
       // 5.3. 특정인의 posts에 comments를 단 친구들 카운트 정보
+      _.go(
+        user,
+        _.deep_pluck('posts.comments.user.name'),
+        _.count_by,
+        console.log
+      );
+
       // 5.4. 특정인이 comment를 단 posts 거르기
+      console.log(
+        _.filter(posts2, function (post) {
+          return _.find(post.comments, function (comment) {
+            return comment.user_id == 105;
+          });
+        })
+      );
     </script>
   </body>
 </html>
