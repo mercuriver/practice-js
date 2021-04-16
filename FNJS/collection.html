@@ -308,8 +308,49 @@
           return [val, key];
         })
       );
-      var _pairs = _map((val, key) => [key, val]);
+
+      // _.js로 이동
+      // var _pairs = _map((val, key) => [key, val]);
       console.log(_pairs(users[0]));
+
+      console.clear();
+
+      var _document_write = document.write.bind(document);
+
+      _go(
+        users,
+        _filter(function (user) {
+          return user.age >= 20;
+        }),
+        _count_by(function (user) {
+          return user.age - (user.age % 10);
+        }),
+        _map((count, key) => `<li>${key}대는 ${count}명 입니다.</li>`),
+        (list) => `<ul>${list.join('')}</ul>`,
+        // function (html) {
+        //   document.write(html);
+        // }
+        _document_write
+      );
+
+      var f1 = _pipe(
+        _filter(function (user) {
+          return user.age >= 20;
+        }),
+        _count_by(function (user) {
+          return user.age - (user.age % 10);
+        }),
+        _map((count, key) => `<li>${key}대는 ${count}명 입니다.</li>`),
+        (list) => `<ul>${list.join('')}</ul>`,
+        console.log
+      );
+      f1(users);
+
+      var f2 = _pipe(
+        _reject((user) => user.age < 30),
+        f1
+      );
+      f2(users);
     </script>
   </body>
 </html>
