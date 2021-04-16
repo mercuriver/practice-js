@@ -15,7 +15,7 @@ var _length = _get('length');
 function _each(list, iter) {
   var keys = _keys(list);
   for (var i = 0, len = keys.length; i < len; i++) {
-    iter(list[keys[i]]);
+    iter(list[keys[i]], keys[i]);
   }
   return list;
 }
@@ -30,8 +30,8 @@ function _filter(list, predi) {
 
 function _map(list, mapper) {
   var new_list = [];
-  _each(list, function (val) {
-    new_list.push(mapper(val));
+  _each(list, function (val, key) {
+    new_list.push(mapper(val, key));
   });
   return new_list;
 }
@@ -140,3 +140,61 @@ function _some(data, predi) {
 function _every(data, predi) {
   return _find_index(data, _negate(predi || _identity)) == -1;
 }
+
+function _push(obj, key, val) {
+  (obj[key] = obj[key] || []).push(val);
+  return obj;
+}
+
+function _min(data) {
+  return _reduce(data, function (a, b) {
+    return a < b ? a : b;
+  });
+}
+
+function _max(data) {
+  return _reduce(data, function (a, b) {
+    return a > b ? a : b;
+  });
+}
+
+var _min_by = _curryr(function (data, iter) {
+  return _reduce(data, function (a, b) {
+    return iter(a) < iter(b) ? a : b;
+  });
+});
+var _max_by = _curryr(function (data, iter) {
+  return _reduce(data, function (a, b) {
+    return iter(a) > iter(b) ? a : b;
+  });
+});
+
+var _group_by = _curryr(function (data, iter) {
+  return _reduce(
+    data,
+    function (grouped, val) {
+      return _push(grouped, iter(val), val);
+    },
+    {}
+  );
+});
+
+var _head = function (list) {
+  return list[0];
+};
+
+var _inc = function (count, key) {
+  count[key] ? count[key]++ : (count[key] = 1);
+  return count;
+};
+var _count_by = _curryr(function (data, iter) {
+  return _reduce(
+    data,
+    function (count, val) {
+      return _inc(count, iter(val));
+    },
+    {}
+  );
+});
+
+var _pairs = _map((val, key) => [key, val]);
