@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>비동기</title>
+    <script src="js/partial.js"></script>
+  </head>
+  <body>
+    <script>
+      function square(a) {
+        return new Promise(function (resolve) {
+          setTimeout(function () {
+            resolve(a * a);
+          }, 500);
+        });
+      }
+
+      function square2(a) {
+        return a * a;
+      }
+
+      // square(10).then(square).then(square).then(square).then(console.log);
+      // _.go(10, square, square, square, square, console.log);
+
+      // // square2(10).then(square2).then(square2).then(square2).then(console.log);
+      // _.go(10, square2, square2, square2, square2, console.log);
+
+      // > 파이프라인을 사용하여 구성한 함수의 묶음은 동기 코드나 비동기 코드 여부와 관련없이 표현식을 동일하게 사용할 수 있다
+
+      console.clear();
+
+      var list = [2, 3, 4];
+
+      new Promise(function (resolve) {
+        (function recur(res) {
+          if (list.length == res.length) return resolve(res);
+          square(list[res.length]).then(function (val) {
+            res.push(val);
+            recur(res);
+          });
+        })([]);
+      }).then(function (res) {
+        console.log(res);
+      });
+
+      _.go(list, _.map(square), console.log);
+      _.go(list, _.map(square), _.map(square), console.log);
+    </script>
+  </body>
+</html>
