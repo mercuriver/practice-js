@@ -226,12 +226,42 @@
 
       _go(
         users,
+        _filter((user) => user.age >= 30),
+        _map(_get('age')),
+        _min,
+        console.log
+      );
+
+      _go(
+        users,
         _reject((user) => user.age >= 30),
         _max_by(_get('age')),
         console.log
       );
 
       // 4.2. group_by, push
+
+      var _group_by = _curryr(function (data, iter) {
+        return _reduce(
+          data,
+          function (grouped, val) {
+            var key = iter(val);
+            (grouped[key] = grouped[key] || []).push(val);
+            return grouped;
+          },
+          {}
+        );
+      });
+
+      console.clear();
+      _go(
+        users,
+        _group_by(function (user) {
+          return user.age;
+        }),
+        console.log
+      );
+
       // 4.3. count_by, inc
     </script>
   </body>
