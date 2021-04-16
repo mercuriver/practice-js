@@ -279,6 +279,18 @@
       _go(users, _group_by(_pipe(_get('name'), _head)), console.log);
 
       // 4.3. count_by, inc
+      var _count_by = _curryr(function (data, iter) {
+        return _reduce(
+          data,
+          function (count, val) {
+            var key = iter(val);
+            count[key] ? count[key]++ : (count[key] = 1);
+            return count;
+          },
+          {}
+        );
+      });
+      _go(users, _count_by(_get('age')), console.log);
     </script>
   </body>
 </html>
